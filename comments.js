@@ -1,36 +1,23 @@
 //Create web Server
-
 const express = require('express');
 const app = express();
+const path = require('path');
 const port = 3000;
-
-//import the routes
-const routes = require('./routes');
-const cors = require('cors');
-
-//import the db connection
-const db = require('./config/db');
-
-//import the model
-const Comment = require('./models/Comment');
-
-//import the body parser
 const bodyParser = require('body-parser');
 
-//import the cors
-app.use(cors());
+//Body Parser
+app.use(bodyParser.urlencoded({ extended: true }));
 
-//use the body parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+//Set view engine to ejs
+app.set('view engine', 'ejs');
 
-//connect to the db
-db.authenticate()
-    .then(() => console.log('Database connected successfully'))
-    .catch(err => console.log('Error: ' + err))
+//Set static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-//define the routes
-app.use('/', routes);
+//Set routes
+app.use(require('./routes/index'));
+app.use(require('./routes/comments'));
+app.use(require('./routes/users'));
 
-//start the server
-app.listen(port, () => console.log(`Server running on port ${port}`));
+//Start server
+app.listen(port, () => console.log(`Server started on port ${port}`));
