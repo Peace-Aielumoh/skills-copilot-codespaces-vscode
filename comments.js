@@ -20,4 +20,4 @@ app.use(require('./routes/comments'));
 app.use(require('./routes/users'));
 
 //Start server
-app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(port, () => console.log(`Server stated on port ${port}`));
